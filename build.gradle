@@ -1,0 +1,43 @@
+apply plugin: 'java'
+apply plugin: 'idea'
+apply plugin: 'eclipse'
+apply plugin: 'maven'
+apply plugin: 'spring-boot'
+
+
+buildscript {
+    dependencies {
+        classpath("org.springframework.boot:spring-boot-gradle-plugin:" + springBootVersion)
+    }
+
+    repositories {
+	mavenCentral()
+    }
+}
+
+jar {
+    manifest {
+        attributes 'Implementation-Title': 'Retail Services', 'Implementation-Version': version
+    }
+}
+
+repositories {
+    mavenCentral()
+}
+
+dependencies {
+
+    compile 'org.springframework.boot:spring-boot-starter:' + springBootVersion,
+            'org.springframework.boot:spring-boot-starter-web:' + springBootVersion,
+            'org.springframework.boot:spring-boot-starter-thymeleaf:' + springBootVersion,
+            'org.springframework.boot:spring-boot-starter-test:' + springBootVersion,
+            'org.springframework.cloud:spring-cloud-starter:' + springCloudStarterVersion,
+            'org.springframework.cloud:spring-cloud-starter-eureka-server:' + springCloudStarterEurekaServerVersion
+
+    testCompile 'junit:junit:4.+'
+}
+
+springBoot {
+    mainClass = "com.retailabc.microservices.services.Main"
+}
+
