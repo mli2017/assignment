@@ -53,9 +53,10 @@ public class ClientCommandRunner implements CommandLineRunner {
 	}
 
 	public void doWork() {
+		addShop();
+		findByLocationGet();
 		findByName();
 		findByLocation();
-		addShop();
 
 	}
 
@@ -67,6 +68,29 @@ public class ClientCommandRunner implements CommandLineRunner {
 
 		if (shop != null)
 			logger.info("shop found =" + shop);
+	}
+
+	private void findByLocationGet() {
+
+		GeoLocation location = RandomUtils.getRandomGeoLocation();
+		logger.info("findByLocationGet() invoked: for " + location);
+
+		ResponseEntity<Object[]> response = restTemplate.getForEntity(getLocationSearchUrl(location), Object[].class);
+
+		printShops(response);
+	}
+
+	private String getLocationSearchUrl(GeoLocation location) {
+		StringBuilder sb = new StringBuilder();
+
+		sb.append(serviceUrl);
+		sb.append("/search?");
+		sb.append("longitude=" + location.getLongitude());
+		sb.append("&");
+		sb.append("latitude=" + location.getLatitude());
+
+		return sb.toString();
+
 	}
 
 	public void findByLocation() {
@@ -83,14 +107,15 @@ public class ClientCommandRunner implements CommandLineRunner {
 
 		ResponseEntity<Object[]> response = restTemplate.postForEntity(url, entity, Object[].class);
 
+		printShops(response);
+	}
+
+	private void printShops(ResponseEntity<Object[]> response) {
 		Object[] shops = response.getBody();
 
 		for (Object shop : shops) {
 			logger.info("shop " + shop);
 		}
-
-		logger.info("findByLocation() invoked: for " + location);
-
 	}
 
 	public void addShop() {

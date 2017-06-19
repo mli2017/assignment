@@ -10,6 +10,7 @@ import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
+import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
 import com.retailabc.microservices.models.GeoLocation;
@@ -67,6 +68,24 @@ public class ShopsController {
 		return shops;
 
 	}
+	@RequestMapping(value = "/shops/search")
+	public List<Shop> byLocationGet(@RequestParam(value="longitude", required=true) String longitude,
+		     @RequestParam(value="latitude", required=false) String latitude) {
+		logger.info("longitude= " + longitude+" latitude="+latitude);
+		GeoLocation location = new GeoLocation(Double.parseDouble(longitude), 
+				Double.parseDouble(latitude));
+
+		logger.info("shops-service byLocationGet() invoked: " + location);
+
+		List<Shop> shops = shopService.findByLocation(location);
+
+		logger.info("shops-service byLocationGet() found: " + shops.size());
+
+		return shops;
+
+	}
+	
+	 
 
 	/**
 	 * Add or update a shop

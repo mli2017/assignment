@@ -32,15 +32,18 @@ Go to browser and open link to [http://localhost:13002] or the port you have cho
    
 ## Test
  To test with browser and postman
- 
- 1. **Get a shop** 
+
+ 1. **Add a shop (POST)** 
+On postman,put http://localhost:13002/shops/add/ in the url box, Set Headers `Content-Type` to `application/json` and post shop in json format, an example is :    `{"name":"Shop0098","address":{"number":158,"postCode":"UR16 6XJ"}}` 
+
+ 2. **Get shops by location (GET)** 
+  On browser or postman,send a request as http://localhost:13002/shops/search?longitude=13.066696251423991&latitude=62.84786162523105 
+   
+ 3. **Get a shop (GET)** [Demo purpose only]
    On browser put http://localhost:13002/shops/byname/Shop0001
    On postman send a get Request to http://localhost:13002/shops/byname/Shop0001
- 
- 2. **Add a shop** 
-On postman,put http://localhost:13002/shops/add/ in the url box, Set Headers `Content-Type` to `application/json` and post shop in json format, an example is :    `{"name":"Shop0098","address":{"number":158,"postCode":"UR16 6XJ"}}`  
- 
- 3.  **Get shops by location** 
+   
+ 4. **Get shops by location (POST)** [Demo purpose only]
   On postman,put http://localhost:13002/shops/bylocation/ set Headers `Content-Type` to `application/json` and post location in json format, an example is :    `{"longitude":13.066696251423991,"latitude":62.84786162523105}`
   
   **Note**: Replace 13002 to the port you configured for shops-server
