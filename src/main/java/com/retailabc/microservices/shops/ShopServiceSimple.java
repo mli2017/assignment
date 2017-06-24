@@ -20,6 +20,10 @@ import com.retailabc.microservices.models.Shop;
 public class ShopServiceSimple extends Observable implements ShopService {
 	private static final int DEFAULT_RADIUS = 10;
 
+	public static enum FEATURE {
+		GEOLOCATION
+	}
+
 	@Autowired
 	private GeoService geoService;
 
@@ -79,7 +83,7 @@ public class ShopServiceSimple extends Observable implements ShopService {
 		GeoLocation geoLocation = geoService.getLocationByShopName(shop.getName());
 
 		if (geoLocation != null)
-			richShop.setLocation(geoLocation);
+			richShop.addFeature(FEATURE.GEOLOCATION.name().toLowerCase(), geoLocation.toString());
 
 		return richShop;
 	}

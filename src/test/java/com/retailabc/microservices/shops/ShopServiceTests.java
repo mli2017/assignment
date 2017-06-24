@@ -5,6 +5,7 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
 import org.junit.Assert;
+import org.junit.Ignore;
 import org.junit.Rule;
 import org.junit.Test;
 import org.junit.rules.ExpectedException;
@@ -19,12 +20,13 @@ import com.retailabc.microservices.models.Address;
 import com.retailabc.microservices.models.GeoLocation;
 import com.retailabc.microservices.models.RichShop;
 import com.retailabc.microservices.models.Shop;
+import com.retailabc.microservices.shops.ShopServiceSimple.FEATURE;
 
 @RunWith(SpringJUnit4ClassRunner.class)
 // ApplicationContext will be loaded from the ShopsConfiguration class
 @ContextConfiguration(classes = ShopsConfiguration.class, loader = AnnotationConfigContextLoader.class)
 public class ShopServiceTests {
-	
+
 	static final Logger logger = LoggerFactory.getLogger(ShopServiceTests.class);
 
 	@Autowired
@@ -79,9 +81,6 @@ public class ShopServiceTests {
 		Assert.assertNotNull(rshop);
 
 		logger.info("shop is " + rshop);
-
-		logger.info("shop is " + rshop);
-
 	}
 
 	@Test
@@ -95,9 +94,11 @@ public class ShopServiceTests {
 
 		Assert.assertNotNull(rshop);
 
-		GeoLocation location = rshop.getLocation();
+		String locations = rshop.getFeature(FEATURE.GEOLOCATION.name().toLowerCase());
 
-		logger.info("location is " + location);
+		logger.info("location is " + locations);
+
+		GeoLocation location = new GeoLocation(locations);
 
 		List<Shop> shops = shopService.findByLocation(location, 10);
 

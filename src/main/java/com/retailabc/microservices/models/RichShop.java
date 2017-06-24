@@ -1,5 +1,9 @@
 package com.retailabc.microservices.models;
 
+import java.util.HashMap;
+import java.util.Map;
+
+import com.fasterxml.jackson.annotation.JsonAnyGetter;
 import com.fasterxml.jackson.annotation.JsonCreator;
 import com.fasterxml.jackson.annotation.JsonProperty;
 
@@ -10,30 +14,35 @@ import com.fasterxml.jackson.annotation.JsonProperty;
  */
 public class RichShop extends Shop {
 
-	private GeoLocation location;
+	private Map<String, String> features;
 
-	
 	@JsonCreator
-	public RichShop(@JsonProperty("name")String name, 
-			@JsonProperty("address")Address address) {
+	public RichShop(@JsonProperty("name") String name, @JsonProperty("address") Address address) {
 		super(name, address);
+		features = new HashMap<>();
 	}
 
 	public RichShop(Shop shop) {
 		super(shop.getName(), shop.getAddress());
+		features = new HashMap<>();
 	}
 
-	public GeoLocation getLocation() {
-		return location;
+	@JsonAnyGetter
+	public Map<String, String> getFeatures() {
+		return features;
 	}
 
-	public void setLocation(GeoLocation location) {
-		this.location = location;
+	public void addFeature(String name, String value) {
+		features.put(name, value);
+	}
+
+	public String getFeature(String name) {
+		return features.get(name);
 	}
 
 	@Override
 	public String toString() {
-		return super.toString() + " [geolocation=" + location + "]";
+		return "RichShop2 " + super.toString() + "[features=" + features + "]";
 	}
 
 }
